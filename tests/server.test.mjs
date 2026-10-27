@@ -1,0 +1,11 @@
+import {test, before, after} from 'node:test';
+import assert from 'node:assert/strict';
+import {createServer} from '../server.mjs';
+let server,base;
+before(async()=>{server=createServer();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));base=`http://127.0.0.1:${server.address().port}`;});
+after(()=>new Promise(resolve=>server.close(resolve)));
+test('servidor serve a interface',async()=>{const r=await fetch(base);assert.equal(r.status,200);assert.match(await r.text(),/ServiçoIA/);});
+test('config pública não expõe chave',async()=>{const r=await fetch(base+'/api/config');const x=await r.json();assert.equal(r.status,200);assert.equal('key' in x,false);});
+test('validação de entrada impede texto curto',async()=>{const r=await fetch(base+'/api/organizar',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({descricao:'curto'})});assert.equal(r.status,400);});
+test('servidor responde com fallback local sem chave',async()=>{const r=await fetch(base+'/api/organizar',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({descricao:'Instalar uma câmera nova na garagem'})});const body=await r.json();assert.equal(r.status,200);assert.equal(body.categoria,'Instalação');assert.equal(body.modo,'regras-locais');});
+test('rotas não reconhecidas retornam 404',async()=>{const r=await fetch(base+'/segredos.env');assert.equal(r.status,404);});

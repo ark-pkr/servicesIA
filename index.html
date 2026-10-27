@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#111d31" />
+  <meta name="description" content="ServiçoIA: transforme descrições de trabalhos em ordens de serviço organizadas." />
+  <title>ServiçoIA — Gestão de ordens de serviço</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navegação principal">
+      <div class="brand"><div class="brand-icon"><span>✳</span></div><div><strong>Serviço<span>IA</span></strong><small>GESTÃO INTELIGENTE</small></div></div>
+      <div class="workspace"><span class="workspace-avatar">S</span><div><strong>Meu negócio</strong><small>Ambiente demonstrativo</small></div><span class="chevron">⌄</span></div>
+      <div class="nav-caption">MENU PRINCIPAL</div>
+      <nav class="nav">
+        <button type="button" data-view="dashboard" class="nav-link active"><span class="nav-icon">▦</span> Visão geral</button>
+        <button type="button" data-view="orders" class="nav-link"><span class="nav-icon">▤</span> Ordens de serviço <span class="nav-count" id="navCount">0</span></button>
+        <button type="button" data-view="customers" class="nav-link"><span class="nav-icon">♧</span> Clientes</button>
+        <button type="button" data-view="new" class="nav-link"><span class="nav-icon">✦</span> Criar com IA</button>
+      </nav>
+      <div class="nav-caption section-space">SISTEMA</div>
+      <nav class="nav">
+        <button type="button" data-view="about" class="nav-link"><span class="nav-icon">ⓘ</span> Como funciona</button>
+        <button type="button" id="exportBtn" class="nav-link"><span class="nav-icon">⇩</span> Exportar backup</button>
+        <button type="button" id="importBtn" class="nav-link"><span class="nav-icon">⇧</span> Importar backup</button>
+      </nav>
+      <div class="side-bottom"><div class="help-mark">✧</div><strong>Mais tempo para o serviço.</strong><p>Menos trabalho organizando ordens e informações.</p><button type="button" data-view="new">Criar nova OS →</button></div>
+      <div class="sidebar-footer"><span class="status-dot"></span> Protótipo funcional <span>v1.0</span></div>
+    </aside>
+
+    <div class="main-wrap">
+      <header class="topbar"><div class="breadcrumb"><button type="button" id="menuBtn" class="icon-btn mobile-menu" aria-label="Abrir menu">☰</button><span>Workspace</span><span class="breadcrumb-sep">/</span><strong id="breadcrumbCurrent">Visão geral</strong></div><div class="top-actions"><div class="mode-pill" id="aiMode"><span class="status-dot"></span> Regras locais</div><span class="top-avatar" aria-label="Meu negócio">S</span></div></header>
+      <main class="main" id="mainContent">
+        <section class="view active" id="view-dashboard" aria-labelledby="dashboardTitle">
+          <div class="title-row"><div><div class="eyebrow">PAINEL DE CONTROLE <span class="mini-line"></span> <span id="todayLabel">—</span></div><h1 id="dashboardTitle">Visão geral</h1><p class="subtitle">Acompanhe os serviços e mantenha tudo organizado em um só lugar.</p></div><button type="button" class="btn btn-primary" data-view="new">＋ Nova ordem de serviço</button></div>
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-top"><span>Ordens registradas</span><span class="stat-symbol violet">▤</span></div><div class="stat-value" id="statTotal">0</div><div class="stat-note">Todos os atendimentos</div></div>
+            <div class="stat-card"><div class="stat-top"><span>Em andamento</span><span class="stat-symbol amber">↗</span></div><div class="stat-value" id="statProgress">0</div><div class="stat-note">Trabalhos ativos</div></div>
+            <div class="stat-card"><div class="stat-top"><span>Concluídas</span><span class="stat-symbol green">✓</span></div><div class="stat-value" id="statDone">0</div><div class="stat-note">Serviços finalizados</div></div>
+            <div class="stat-card"><div class="stat-top"><span>Valor estimado</span><span class="stat-symbol blue">R$</span></div><div class="stat-value stat-money" id="statValue">R$ 0,00</div><div class="stat-note">Somatório dos orçamentos</div></div>
+          </div>
+          <div class="dashboard-grid">
+            <section class="panel recent-panel"><div class="panel-heading"><div><h2>Ordens recentes</h2><p>Últimas movimentações registradas</p></div><button type="button" class="text-button" data-view="orders">Ver todas →</button></div><div id="recentOrders" class="recent-list"></div></section>
+            <section class="panel assistant-panel"><div class="assistant-gradient"><div class="assistant-stars">✳</div><div class="assistant-tag">ASSISTENTE SERVIÇOIA</div><h2>Uma descrição.<br />Uma OS organizada.</h2><p>Descreva o problema com suas palavras e receba uma sugestão de ordem de serviço pronta para revisar.</p><button type="button" class="btn btn-white" data-view="new">✦ Experimentar agora <span>↗</span></button></div><div class="assistant-foot"><span>01 Escreva</span><span>→</span><span>02 Organize</span><span>→</span><span>03 Acompanhe</span></div></section>
+          </div>
+          <div class="note"><span>ⓘ</span> <span><strong>Modo demonstração:</strong> os dados ficam salvos apenas neste navegador. Use o backup para preservar o trabalho. Não utilize este protótipo com dados reais sensíveis em computadores compartilhados.</span></div>
+        </section>
+
+        <section class="view" id="view-orders" aria-labelledby="ordersTitle">
+          <div class="title-row"><div><div class="eyebrow">GESTÃO DE ATENDIMENTOS</div><h1 id="ordersTitle">Ordens de serviço</h1><p class="subtitle">Consulte, atualize e imprima seus atendimentos.</p></div><button type="button" class="btn btn-primary" data-view="new">＋ Nova OS</button></div>
+          <div class="panel table-panel"><div class="filterbar"><label class="search-box"><span>⌕</span><input id="orderSearch" type="search" placeholder="Buscar por cliente, número ou serviço..." aria-label="Buscar ordens" /></label><select id="statusFilter" aria-label="Filtrar por situação"><option value="all">Todos os status</option><option value="Aberta">Aberta</option><option value="Em andamento">Em andamento</option><option value="Aguardando peça">Aguardando peça</option><option value="Concluída">Concluída</option><option value="Cancelada">Cancelada</option></select><button type="button" class="btn btn-outline" id="csvBtn">↓ CSV</button></div><div class="table-scroll"><table><thead><tr><th>ORDEM / SERVIÇO</th><th>CLIENTE</th><th>STATUS</th><th>PRIORIDADE</th><th>VALOR</th><th></th></tr></thead><tbody id="ordersBody"></tbody></table></div><div id="emptyOrders" class="empty-state" hidden>Nenhuma ordem encontrada. Experimente criar uma nova OS.</div></div>
+        </section>
+
+        <section class="view" id="view-customers" aria-labelledby="customersTitle">
+          <div class="title-row"><div><div class="eyebrow">RELACIONAMENTO</div><h1 id="customersTitle">Seus clientes</h1><p class="subtitle">Mantenha o histórico de quem você atende.</p></div><button type="button" class="btn btn-primary" id="addCustomerBtn">＋ Novo cliente</button></div><div class="panel table-panel"><div class="filterbar"><label class="search-box"><span>⌕</span><input id="customerSearch" type="search" placeholder="Buscar clientes..." aria-label="Buscar clientes" /></label><span class="count-label" id="customerCount">0 clientes</span></div><div class="table-scroll"><table><thead><tr><th>CLIENTE</th><th>CONTATO</th><th>ENDEREÇO</th><th>ORDENS</th><th></th></tr></thead><tbody id="customersBody"></tbody></table></div><div class="empty-state" id="emptyCustomers" hidden>Nenhum cliente cadastrado.</div></div></section>
+
+        <section class="view" id="view-new" aria-labelledby="newTitle">
+          <div class="title-row"><div><div class="eyebrow">ASSISTENTE DE ORDENS DE SERVIÇO</div><h1 id="newTitle">Criar ordem de serviço <span class="sparkle">✳</span></h1><p class="subtitle">Descreva o que precisa ser feito. Revise as sugestões antes de salvar.</p></div><button type="button" class="btn btn-outline" id="resetFormBtn">↺ Limpar campos</button></div>
+          <div class="form-grid"><div class="form-main">
+            <section class="panel input-panel"><div class="section-head"><div class="step-badge">01</div><div><h2>Conte sobre o trabalho</h2><p>Não precisa escrever de maneira técnica.</p></div></div><label for="description" class="field-label">Descrição recebida do cliente <span class="required">*</span></label><textarea id="description" rows="5" maxlength="4000" placeholder="Ex.: O cliente trouxe um notebook Lenovo que não está ligando. Precisa de avaliação urgente e possível troca da fonte..."></textarea><div class="desc-bottom"><span>✦ Informe o problema, equipamento e urgência, se souber.</span><span id="descriptionCount">0 / 4000</span></div><button type="button" class="btn btn-ai" id="organizeBtn"><span>✳</span> Organizar descrição <span>→</span></button><div class="ai-feedback" id="aiFeedback" role="status" aria-live="polite"></div></section>
+            <section class="panel details-panel"><div class="section-head"><div class="step-badge">02</div><div><h2>Revise os detalhes da OS</h2><p>Os dados são sugestões editáveis, não diagnósticos.</p></div></div><form id="orderForm"><div class="fields two"><label class="field">Cliente <span class="required">*</span><select id="orderCustomer" required><option value="">Selecione um cliente</option></select></label><label class="field">Categoria <select id="orderCategory"><option>Informática</option><option>Mecânica</option><option>Instalação</option><option>Outros</option></select></label></div><div class="inline-hint">Cliente não cadastrado? <button type="button" class="inline-link" id="quickCustomerBtn">Adicionar agora ↗</button></div><div class="fields"><label class="field">Título do serviço <span class="required">*</span><input id="orderTitle" maxlength="100" required placeholder="Ex.: Diagnóstico de notebook" /></label></div><div class="fields two"><label class="field">Equipamento / item <input id="orderEquipment" maxlength="100" placeholder="Ex.: Notebook Lenovo" /></label><label class="field">Prioridade <select id="orderPriority"><option>Média</option><option>Baixa</option><option>Alta</option></select></label></div><div class="fields two"><label class="field">Orçamento estimado (R$) <input type="number" id="orderPrice" min="0" max="99999999" step="0.01" placeholder="0,00" /></label><label class="field">Previsão de entrega <input type="date" id="orderDue" /></label></div><div class="fields"><label class="field">Serviço sugerido / procedimento <textarea id="orderService" rows="3" maxlength="2000" placeholder="O que será avaliado ou executado..."></textarea></label></div><div class="fields"><label class="field">Observações internas <textarea id="orderNotes" rows="2" maxlength="2000" placeholder="Peças, contato, orientações..."></textarea></label></div><div class="form-footer"><span>Os campos marcados com * são obrigatórios.</span><button type="submit" class="btn btn-primary btn-save" id="saveOrderBtn">✓ Salvar ordem de serviço</button></div></form></section>
+          </div><aside class="form-aside"><div class="panel aside-panel"><h3>Como funciona</h3><div class="as-step"><span>1</span><div><strong>Você descreve</strong><p>Digite o pedido do cliente em linguagem natural.</p></div></div><div class="as-step"><span>2</span><div><strong>O sistema sugere</strong><p>Organiza categoria, prioridade e serviço.</p></div></div><div class="as-step"><span>3</span><div><strong>Você confirma</strong><p>Revise os campos, salve e acompanhe a OS.</p></div></div></div><div class="privacy-card"><span class="privacy-icon">♙</span><strong>Você mantém o controle.</strong><p>A ferramenta não deve inventar preços ou confirmar diagnósticos. A palavra final é sempre do técnico.</p></div></aside></div>
+        </section>
+
+        <section class="view" id="view-about" aria-labelledby="aboutTitle"><div class="title-row"><div><div class="eyebrow">SOBRE O PROJETO</div><h1 id="aboutTitle">Como funciona o ServiçoIA</h1><p class="subtitle">Um MVP de gestão de ordens de serviço pensado para profissionais autônomos.</p></div></div><div class="about-grid"><div class="panel about-card"><span class="about-emoji">🧾</span><h2>1. Registre o pedido</h2><p>Descreva livremente o defeito ou serviço solicitado pelo cliente, sem precisar preencher tudo do zero.</p></div><div class="panel about-card"><span class="about-emoji">✳</span><h2>2. Organize a OS</h2><p>Com chave configurada, a IA Gemini sugere os campos. Sem chave, regras locais fazem uma organização básica e transparente.</p></div><div class="panel about-card"><span class="about-emoji">🔧</span><h2>3. Acompanhe</h2><p>Altere o status, registre o orçamento, imprima e exporte dados. Tudo permanece no navegador nesta versão.</p></div></div><div class="panel about-long"><h2>Limitações importantes desta versão</h2><p>Este é um protótipo para demonstração e testes. Não possui login, banco de dados remoto, sincronização entre dispositivos, armazenamento criptografado, envio automático de WhatsApp ou emissão fiscal. Antes de uso comercial, são necessários autenticação, servidor com banco de dados, backups seguros e adequação à LGPD.</p><button type="button" class="btn btn-outline" id="clearDemoBtn">Limpar registros de demonstração</button></div></section>
+      </main>
+    </div>
+  </div>
+  <dialog id="customerDialog" class="dialog"><form id="customerForm" class="dialog-body"><div class="dialog-head"><div><h2 id="customerDialogTitle">Novo cliente</h2><p>Cadastre os dados básicos para associar uma OS.</p></div><button type="button" class="icon-btn" id="closeCustomerBtn" aria-label="Fechar">×</button></div><label class="field">Nome completo <span class="required">*</span><input id="customerName" maxlength="120" required placeholder="Nome do cliente" /></label><div class="fields two"><label class="field">Telefone <input id="customerPhone" type="tel" maxlength="30" placeholder="(99) 99999-9999" /></label><label class="field">E-mail <input id="customerEmail" type="email" maxlength="150" placeholder="email@exemplo.com" /></label></div><label class="field">Endereço <input id="customerAddress" maxlength="250" placeholder="Rua, número e bairro" /></label><div class="dialog-actions"><button type="button" id="cancelCustomerBtn" class="btn btn-outline">Cancelar</button><button type="submit" class="btn btn-primary">Salvar cliente</button></div></form></dialog>
+  <dialog id="orderDialog" class="dialog dialog-wide"><div class="dialog-body"><div class="dialog-head"><div><span class="eyebrow">DETALHES DA ORDEM</span><h2 id="detailTitle">Ordem de serviço</h2></div><button type="button" class="icon-btn" id="closeOrderBtn" aria-label="Fechar">×</button></div><div id="orderDetail"></div><div class="dialog-actions"><button type="button" id="deleteOrderBtn" class="btn btn-danger">Excluir OS</button><div class="dialog-action-group"><button type="button" id="printOrderBtn" class="btn btn-outline">⎙ Imprimir</button><button type="button" id="saveStatusBtn" class="btn btn-primary">Salvar atualização</button></div></div></div></dialog>
+  <input id="backupFile" type="file" accept="application/json,.json" hidden />
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="backdrop" id="backdrop" hidden></div>
+  <script src="core.js"></script><script src="app.js"></script>
+</body>
+</html>
